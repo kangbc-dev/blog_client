@@ -1,10 +1,11 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { sign } from "crypto";
 import { ErrorMessage } from "@hookform/error-message";
+import { isSignInVar } from "../../../apolloClient";
 
 const S_Conatiner = styled.div`
 	position: relative;
@@ -77,6 +78,7 @@ const GET_SIGN_IN = gql`
 `;
 
 function SignIn() {
+	const navigate = useNavigate();
 	const { register, handleSubmit, formState } = useForm();
 
 	//graphql start
@@ -92,19 +94,17 @@ function SignIn() {
 			},
 		}).then((response) => {
 			if (response.data.signIn?.ok) {
-				sessionStorage.setItem("isSignIn", "true");
+				isSignInVar(true);
 			} else {
-				sessionStorage.setItem("isSignIn", "false");
+				isSignInVar(false);
 			}
 		});
 	};
 	useEffect(() => {}, []);
 	useEffect(() => {
 		if (signInResult.data === undefined) return;
-		console.log(signInResult.data);
 		if (signInResult.data.signIn?.ok === true) {
-			console.log("조건달성");
-			window.location.href = "/";
+			navigate("/");
 		}
 	}, [signInResult]);
 	return (

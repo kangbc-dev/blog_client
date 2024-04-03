@@ -2,7 +2,7 @@ import { gql, useLazyQuery, useReactiveVar } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { isSignInVar } from "../../apolloClient";
+import { isSignInVar } from "../../../apolloClient";
 
 const S_Wrapper = styled.div`
 	display: flex;
@@ -28,15 +28,17 @@ function Profile() {
 	const naviate = useNavigate();
 	const isSignIn = useReactiveVar(isSignInVar);
 	const [signOut, signOutResult] = useLazyQuery(GET_SIGN_OUT);
+	console.log("isSignIn");
+	console.log(isSignIn);
 	useEffect(() => {
 		if (!isSignIn) {
-			naviate("/sign_in");
+			naviate("../sign_in");
 		}
 	}, [isSignIn]);
 	useEffect(() => {
 		if (signOutResult.data?.signOut?.ok === true) {
-			sessionStorage.setItem("isSignIn", "false");
-			naviate("/sign_in");
+			isSignInVar(false);
+			naviate("../sign_in");
 		}
 	}, [signOutResult]);
 	return (
