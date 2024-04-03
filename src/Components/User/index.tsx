@@ -4,6 +4,7 @@ import Profile from "./Profile";
 import SignIn from "./SignIn";
 import { isSignInVar } from "../../apolloClient";
 import { useReactiveVar } from "@apollo/client";
+import SignUp from "./SignUp";
 
 function User() {
 	const navigate = useNavigate();
@@ -21,6 +22,7 @@ function User() {
 			<Routes>
 				<Route path="profile" element={<Profile />} />
 				<Route path="sign_in" element={<SignIn />} />
+				<Route path="sign_up" element={<SignUp />} />
 			</Routes>
 		</>
 	);
