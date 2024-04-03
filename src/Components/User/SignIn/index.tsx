@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { sign } from "crypto";
 import { ErrorMessage } from "@hookform/error-message";
 import { isSignInVar } from "../../../apolloClient";
+import { isSignInUpdate } from "../../../utils/token";
 
 const S_Conatiner = styled.div`
 	position: relative;
@@ -94,9 +95,9 @@ function SignIn() {
 			},
 		}).then((response) => {
 			if (response.data.signIn?.ok) {
-				isSignInVar(true);
+				isSignInVar(isSignInUpdate(true));
 			} else {
-				isSignInVar(false);
+				isSignInVar(isSignInUpdate(false));
 			}
 		});
 	};
@@ -160,7 +161,15 @@ function SignIn() {
 						<button onClick={(e) => {}}>로그인</button>
 					</div>
 					<div>
-						<Link to={"#none"}>회원가입</Link>
+						<Link
+							to={"#none"}
+							onClick={(e) => {
+								e.preventDefault();
+								navigate("../sign_up");
+							}}
+						>
+							회원가입
+						</Link>
 						<div>
 							<Link to={"#none"}>아이디 찾기</Link>
 							<Link to={"#none"}>비밀번호 찾기</Link>

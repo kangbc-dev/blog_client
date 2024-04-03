@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { isSignInVar } from "../../../apolloClient";
+import { isSignInUpdate } from "../../../utils/token";
 
 const S_Wrapper = styled.div`
 	display: flex;
@@ -37,7 +38,7 @@ function Profile() {
 	}, [isSignIn]);
 	useEffect(() => {
 		if (signOutResult.data?.signOut?.ok === true) {
-			isSignInVar(false);
+			isSignInVar(isSignInUpdate(false));
 			naviate("../sign_in");
 		}
 	}, [signOutResult]);
