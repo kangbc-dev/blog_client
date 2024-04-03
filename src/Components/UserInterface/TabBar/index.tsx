@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import { RxAvatar } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const S_Container = styled.div`
 	position: fixed;
 	bottom: 0;
@@ -36,6 +36,9 @@ const S_Container = styled.div`
 `;
 
 function TabBar() {
+	const location = useLocation();
+	const navigate = useNavigate();
+
 	return (
 		<S_Container>
 			<Link to={"#none"}>
@@ -46,7 +49,14 @@ function TabBar() {
 				<IoHomeOutline />
 				<span>홈</span>
 			</Link>
-			<Link to={"/profile"}>
+			<Link
+				to={"user"}
+				onClick={(e) => {
+					e.preventDefault();
+					if (/^\/user\//.test(location.pathname)) return;
+					navigate("/user");
+				}}
+			>
 				<RxAvatar />
 				<span>내 정보</span>
 			</Link>
